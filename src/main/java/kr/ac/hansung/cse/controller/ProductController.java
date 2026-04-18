@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import kr.ac.hansung.cse.exception.ProductNotFoundException;
 import kr.ac.hansung.cse.model.Product;
 import kr.ac.hansung.cse.model.ProductForm;
+import kr.ac.hansung.cse.service.CategoryService;
 import kr.ac.hansung.cse.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,9 +38,11 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
 
@@ -48,9 +51,31 @@ public class ProductController {
     // ─────────────────────────────────────────────────────────────────
 
     @GetMapping
-    public String listProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
+    public String listProducts(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long categoryId,
+            Model model) {
+
+        List<Product> products;
+
+        // 검색어가 있는 경우
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            products = productService.searchByName(keyword);
+        }
+        // 카테고리가 선택된 경우
+        else if (categoryId != null) {
+            products = productService.searchByCategory(categoryId);
+        }
+        // 아무 조건도 없는 경우
+        else {
+            products = productService.getAllProducts();
+        }
+
         model.addAttribute("products", products);
+        model.addAttribute("categories", categoryService.getAllCategories()); // 드롭다운용
+        model.addAttribute("keyword", keyword); // 검색창에 검색어 남겨두기용
+        model.addAttribute("categoryId", categoryId); // 드롭다운에 선택한 카테고리 남겨두기용
+
         return "productList";
     }
 
