@@ -80,7 +80,7 @@
                        th:href="@{/products/{id}(id=${product.id})}"
                        th:text="${product.name}">상품명</a>
                 </td>
-                <td th:text="${product.category}">카테고리</td>
+                <td th:text="${product.category != null ? product.category.name : '-'}">카테고리</td>
 
                 <!--
                     #numbers.formatDecimal(): Thymeleaf 내장 유틸리티 객체
@@ -121,4 +121,11 @@
     </table>
 
 </body>
+<hr>
+<footer>
+    <p>
+        <span th:text="${'실습 수행 일시: ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 (E) a hh:mm:ss')}"></span>
+        <span> | 학번: 2171387 | 성명: 이성민</span>
+    </p>
+</footer>
 </html>
