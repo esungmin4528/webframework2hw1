@@ -72,9 +72,9 @@ public class ProductController {
         }
 
         model.addAttribute("products", products);
-        model.addAttribute("categories", categoryService.getAllCategories()); // 드롭다운용
-        model.addAttribute("keyword", keyword); // 검색창에 검색어 남겨두기용
-        model.addAttribute("categoryId", categoryId); // 드롭다운에 선택한 카테고리 남겨두기용
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("categoryId", categoryId);
 
         return "productList";
     }
