@@ -137,4 +137,11 @@
     </form>
 
 </body>
+<hr>
+<footer>
+    <p>
+        <span th:text="${'실습 수행 일시: ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 (E) a hh:mm:ss')}"></span>
+        <span> | 학번: 2171387 | 성명: 이성민</span>
+    </p>
+</footer>
 </html>

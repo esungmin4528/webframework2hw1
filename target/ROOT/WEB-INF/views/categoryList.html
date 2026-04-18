@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>카테고리 관리</title>
+</head>
+<body>
+<h2>카테고리 목록</h2>
+
+<p th:if="${successMessage}" th:text="${successMessage}" style="color: green; font-weight: bold;"></p>
+<p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
+
+<a th:href="@{/categories/create}">+ 새 카테고리 등록</a>
+<br><br>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>이름</th>
+    <th>관리</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="cat : ${categories}">
+    <td th:text="${cat.id}"></td>
+    <td th:text="${cat.name}"></td>
+    <td>
+      <form th:action="@{/categories/{id}/delete(id=${cat.id})}" method="post" style="display:inline;">
+        <button type="submit">삭제</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<br>
+<a th:href="@{/products}">상품 목록으로 돌아가기</a>
+
+<hr>
+<footer>
+  <p>
+    <span th:text="${'실습 수행 일시: ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 (E) a hh:mm:ss')}"></span>
+    <span> | 학번: 본인학번입력 | 성명: 이성민</span>
+  </p>
+</footer>
+</body>
+</html>
